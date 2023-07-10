@@ -157,6 +157,7 @@ if __name__ == '__main__':
 
     build_skin(input_skin, watermark, ini_path=ini_path, auto_execute=True)
 
+# ignore these comments they are notes to self lol
 #note?: "specify osu path to automatically add skins, set path to auto to autodetect (check default location,start menu things installed programs. give warning if not able to detect)"
 #note2: another arg, "in_place" will update just 1 variant for the skin the inis are in. when doing or not doing this, have the generated skin.ini watermark include the variant code.
 #note3: add a service that autodetects changes in files in the skin folder and rebuilds the skin.ini
