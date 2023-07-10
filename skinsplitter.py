@@ -130,7 +130,7 @@ def process_config(skin_config, variants_config, styles_config, notesets_config,
     return processed_configs
 
 def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=None, output_path='output', temp_path='_temp', auto_execute=False):
-    # Sanitise file paths just in case
+    # Sanitise file paths, just in case
     if skin_path is not None: skin_path = sanitise(skin_path)
     if ini_path is not None: ini_path = sanitise(ini_path)
     if input_path is not None: input_path = sanitise(input_path)
