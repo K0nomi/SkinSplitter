@@ -11,19 +11,19 @@ import exceptions
 ALL_KEYS = {'Keys1': 1, 'Keys2': 2, 'Keys3': 3, 'Keys4': 4, 'Keys5': 5, 'Keys6': 6, 'Keys7': 7, 'Keys8': 8, 'Keys9': 9, 'Keys10': 10, 'Keys12': 12, 'keys14': 14, 'keys16': 16, 'Keys18': 18}
 NOTE_PROPERTIES = [('NoteImage', 'NoteImage{}'), ('NoteImageH', 'NoteImage{}H'), ('NoteImageL', 'NoteImage{}L'), ('NoteImageT', 'NoteImage{}T')]
 
-def parse_inis(input_dir):
+def parse_inis(input_path):
     # Parse the input INI files
     skin_config = skinparser.SkinParser()
-    skin_config.read(os.path.join(input_dir, 'skin.ini'))
+    skin_config.read(os.path.join(input_path, 'skin.ini'))
 
     variants_config = skinparser.SkinParser()
-    variants_config.read(os.path.join(input_dir, 'maniavariants.ini'))
+    variants_config.read(os.path.join(input_path, 'maniavariants.ini'))
 
     styles_config = skinparser.SkinParser()
-    styles_config.read(os.path.join(input_dir, 'maniastyles.ini'))
+    styles_config.read(os.path.join(input_path, 'maniastyles.ini'))
 
     notes_config = skinparser.SkinParser()
-    notes_config.read(os.path.join(input_dir, 'manianotes.ini'))
+    notes_config.read(os.path.join(input_path, 'manianotes.ini'))
 
     return skin_config, variants_config, styles_config, notes_config
 
@@ -116,25 +116,35 @@ def process_config(skin_config, variants_config, styles_config, notes_config):
 
     return processed_configs
 
-def build_skin(input_skin, watermark=None, ini_directory='SkinSplitter', input_dir = None, output_dir='output', temp_dir='_temp', auto_execute=False):
-    ini_dir = os.path.join(input_skin, ini_directory)
-    temp_skin_dir = os.path.join(temp_dir, 'skin')
+def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=None, output_path='output', temp_path='_temp', auto_execute=False):
+    temp_skin_path = os.path.join(temp_path, 'skin')
     # If automatically executing, use temp output
-    output_dir = os.path.join(temp_dir, 'output') if auto_execute else output_dir
+    if auto_execute:
+        output_path = os.path.join(temp_path, 'output')
+    # If input dir set, use that dir
+    if input_path is not None: 
+        skin_path = os.path.join(input_path, skin_path)
+
+    # Throw if no skin directory
+    if not os.path.exists(skin_path):
+        raise exceptions.SkinNotFound(f"Skin {skin_path} was not found!")
+    
+    # The ini path is inside the skin directory
+    ini_path = os.path.join(skin_path, ini_path)
 
     # Warn user if non-skinsplitter skin.ini exists
-    if os.path.exists(os.path.join(input_skin, 'skin.ini')):
+    if os.path.exists(os.path.join(skin_path, 'skin.ini')):
         print("Warning: Normal skin.ini exists in input directory, this will be ignored.")
 
     # Reset temp dir
-    if os.path.exists(temp_dir):
-        shutil.rmtree(temp_dir)
-    os.mkdir(temp_dir)
+    if os.path.exists(temp_path):
+        shutil.rmtree(temp_path)
+    os.mkdir(temp_path)
     # Add skin files to temp skin dir
-    copy_tree(input_skin, temp_skin_dir)
+    copy_tree(skin_path, temp_skin_path)
 
     # Parse the INI files
-    configs = parse_inis(ini_dir)
+    configs = parse_inis(ini_path)
 
     # Process the config objects
     processed_configs = process_config(*configs)
@@ -144,11 +154,11 @@ def build_skin(input_skin, watermark=None, ini_directory='SkinSplitter', input_d
         variant_name = c['General']['Name']
 
         #Create skin.ini in temp skin dir
-        write_ini(c, os.path.join(temp_skin_dir,'skin.ini'), watermark=watermark)
+        write_ini(c, os.path.join(temp_skin_path,'skin.ini'), watermark=watermark)
 
         # Create .osk
-        output_filename = os.path.join(output_dir, variant_name+'.osk')
-        skin_file = shutil.make_archive(os.path.join(output_dir, variant_name), 'zip', temp_skin_dir) 
+        output_filename = os.path.join(output_path, variant_name+'.osk')
+        skin_file = shutil.make_archive(os.path.join(output_path, variant_name), 'zip', temp_skin_path) 
         os.replace(skin_file, output_filename)
 
         # Run .osk if auto executing. TODO: add option to not zip and just copy the files over if osu path specified.
@@ -161,21 +171,21 @@ def build_skin(input_skin, watermark=None, ini_directory='SkinSplitter', input_d
         # Give time for osu to import, TODO: make this mor rigorous
         time.sleep(1)
     # Cleanup temp dir
-    shutil.rmtree(temp_dir)
+    shutil.rmtree(temp_path)
 
 # Below here is unfinished code
 if __name__ == '__main__':
     input_skin = 'Konomix v3 Gamma'
-    ini_directory = 'SkinSplitter'
-    #output_dir = 'output'
+    ini_path = 'SkinSplitter'
+    #output_path = 'output'
     watermark = [
         'This skin.ini was automatically generated using SkinSplitter (made by Konomi).', 
         'https://github.com/K0nomi/SkinSplitter/', 
         'The contents of this skin.ini are not designed to be readable.',
-        f'check the `{ini_directory}` folder in this skin\'s directory for the original configs.'
+        f'check the `{ini_path}` folder in this skin\'s directory for the original configs.'
     ]
 
-    build_skin(input_skin, watermark, ini_directory=ini_directory, auto_execute=True)
+    build_skin(input_skin, watermark, ini_path=ini_path, auto_execute=True)
 
 #note?: "specify osu path to automatically add skins, set path to auto to autodetect (check default location,start menu things installed programs. give warning if not able to detect)"
 #note2: another arg, "in_place" will update just 1 variant for the skin the inis are in. when doing or not doing this, have the generated skin.ini watermark include the variant code.
