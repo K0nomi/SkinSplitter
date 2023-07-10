@@ -1,0 +1,2 @@
+class UnmatchedKeycounts(Exception):
+    pass
