@@ -213,4 +213,4 @@ if __name__ == '__main__':
 #note2: another arg, "in_place" will update just 1 variant for the skin the inis are in. when doing or not doing this, have the generated skin.ini watermark include the variant code.
 #note3: add a service that autodetects changes in files in the skin folder and rebuilds the skin.ini
 
-#TODO: add support for custom defaults
+#TODO: add support for custom defaults (copying other skins)
