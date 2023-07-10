@@ -27,7 +27,7 @@ def parse_ini(input_path, ini_name):
     ini_path = os.path.join(input_path, ini_name)
 
     if not os.path.exists(ini_path):
-        raise exceptions.MissingConfiguration(f"INI file '{ini_path}' does not exist.")
+        raise errors.MissingConfiguration(f"INI file '{ini_path}' does not exist.")
 
     config = SkinParser()
     config.read(ini_path)
