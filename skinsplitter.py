@@ -130,6 +130,13 @@ def process_config(skin_config, variants_config, styles_config, notesets_config,
     return processed_configs
 
 def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=None, output_path='output', temp_path='_temp', auto_execute=False):
+    # Sanitise file paths just in case
+    if skin_path is not None: skin_path = sanitise(skin_path)
+    if ini_path is not None: ini_path = sanitise(ini_path)
+    if input_path is not None: input_path = sanitise(input_path)
+    if output_path is not None: output_path = sanitise(output_path)
+    if temp_path is not None: temp_path = sanitise(temp_path)
+
     temp_skin_path = os.path.join(temp_path, 'skin')
     # If automatically executing, use temp output
     if auto_execute:
@@ -182,8 +189,8 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
         print(f'{variant_name} done.')
 
     if auto_execute:
-        # Give time for osu to import, TODO: make this mor rigorous
-        time.sleep(5)
+        # Give time for osu to import, TODO: make this more rigorous
+        time.sleep(len(processed_configs) // 1.5)
     # Cleanup temp dir
     shutil.rmtree(temp_path)
 
