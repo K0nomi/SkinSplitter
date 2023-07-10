@@ -14,56 +14,6 @@ NOTE_PROPERTIES = [('NoteImage', 'NoteImage{}'), ('NoteImageH', 'NoteImage{}H'),
 def sanitise(filename):
     return re.sub(r'[<>:"/\\|?*]', '_', filename).strip('. ').strip()
 
-def parse_ini(input_path, ini_name):
-    ini_path = os.path.join(input_path, ini_name)
-
-    if not os.path.exists(ini_path):
-        raise exceptions.MissingConfiguration(f"INI file '{ini_path}' does not exist.")
-
-    config = skinparser.SkinParser()
-    config.read(ini_path)
-
-    return config
-
-def parse_inis(input_path):
-    # Parse the input INI files
-    skin_config = parse_ini(input_path, 'skinsplitter.ini')
-    variants_config = parse_ini(input_path, 'maniavariants.ini')
-    styles_config = parse_ini(input_path, 'maniastyles.ini')
-    notesets_config = parse_ini(input_path, 'manianotesets.ini')
-    notes_config = parse_ini(input_path, 'manianotes.ini')
-
-    return skin_config, variants_config, styles_config, notesets_config, notes_config
-
-def write_ini(config, output_file, watermark=None):
-    # Check if the directory of the file exists, and create it if necessary
-    directory = os.path.dirname(output_file)
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-
-    # Write the config into a new INI file
-    with open(output_file, 'w+') as f:
-        # Write watermark at the beginning of the file if one is set
-        if watermark:
-            for line in watermark:
-                f.write(f'// {line}\n')
-            f.write('\n')
-
-        # Write skin config
-        config.write(f)
-
-        # Re-read file contents
-        f.seek(0)
-        file_content = f.read()
-
-        # Replace [Mania\d+] with [Mania]
-        modified_content = re.sub(r'\[Mania\d+\]', '[Mania]', file_content)
-
-        # Rewrite and truncate
-        f.seek(0)
-        f.write(modified_content)
-        f.truncate()
-
 def process_config(skin_config, variants_config, styles_config, notesets_config, notes_config):
     # Create base config for variants to build from
     base_config = skinparser.SkinParser()
@@ -161,7 +111,7 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
     copy_tree(skin_path, temp_skin_path)
 
     # Parse the INI files
-    configs = parse_inis(ini_path)
+    configs = skinparser.parse_inis(ini_path)
 
     # Process the config objects
     processed_configs = process_config(*configs)
@@ -171,7 +121,7 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
         variant_name = sanitise(c['General']['Name'])
 
         #Create skin.ini in temp skin dir
-        write_ini(c, os.path.join(temp_skin_path,'skin.ini'), watermark=watermark)
+        skinparser.write_ini(c, os.path.join(temp_skin_path,'skin.ini'), watermark=watermark)
 
         # Create .osk
         output_filename = os.path.join(output_path, variant_name+'.osk')
@@ -189,6 +139,7 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
         # Give time for osu to import
         # TODO: make this more rigorous
         time.sleep(len(processed_configs) // 1.5)
+        
     # Cleanup temp dir
     shutil.rmtree(temp_path)
 

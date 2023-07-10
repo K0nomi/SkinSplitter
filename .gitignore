@@ -2,6 +2,9 @@ Konomix v3 Gamma/
 input/
 output/
 
+# Temporary unfinished thing
+skinupdater.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
