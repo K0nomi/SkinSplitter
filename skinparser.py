@@ -8,7 +8,7 @@ class SkinParser(configparser.ConfigParser):
     def write(self, *args, space_around_delimiters=False, **kwargs):
         super().write(*args, space_around_delimiters=space_around_delimiters, **kwargs)
 
-    def get_with_default(self, section, option, *, default='Default', **kwargs):
+    def get_with_default(self, section, option, *, default='Default', fallback=None, **kwargs):
         #TODO: Recurse
 
         value = self.get(section, option, fallback=None, **kwargs)
@@ -16,7 +16,7 @@ class SkinParser(configparser.ConfigParser):
             return value
         
         # Option not found, fallback to Default and then None
-        return self.get(default, option, fallback=None, **kwargs)
+        return self.get(default, option, fallback=fallback, **kwargs)
 
     def update_with_default(self, *args, **kwargs):
         raise NotImplementedError("TODO?")

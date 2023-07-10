@@ -11,6 +11,9 @@ import exceptions
 ALL_KEYS = {'Keys1': 1, 'Keys2': 2, 'Keys3': 3, 'Keys4': 4, 'Keys5': 5, 'Keys6': 6, 'Keys7': 7, 'Keys8': 8, 'Keys9': 9, 'Keys10': 10, 'Keys12': 12, 'keys14': 14, 'keys16': 16, 'Keys18': 18}
 NOTE_PROPERTIES = [('NoteImage', 'NoteImage{}'), ('NoteImageH', 'NoteImage{}H'), ('NoteImageL', 'NoteImage{}L'), ('NoteImageT', 'NoteImage{}T')]
 
+def sanitise(filename):
+    return re.sub(r'[<>:"/\\|?*]', '_', filename).strip('. ').strip()
+
 def parse_ini(input_path, ini_name):
     ini_path = os.path.join(input_path, ini_name)
 
@@ -24,12 +27,13 @@ def parse_ini(input_path, ini_name):
 
 def parse_inis(input_path):
     # Parse the input INI files
-    skin_config = parse_ini(input_path, 'skin.ini')
+    skin_config = parse_ini(input_path, 'skinsplitter.ini')
     variants_config = parse_ini(input_path, 'maniavariants.ini')
     styles_config = parse_ini(input_path, 'maniastyles.ini')
+    notesets_config = parse_ini(input_path, 'manianotesets.ini')
     notes_config = parse_ini(input_path, 'manianotes.ini')
 
-    return skin_config, variants_config, styles_config, notes_config
+    return skin_config, variants_config, styles_config, notesets_config, notes_config
 
 def write_ini(config, output_file, watermark=None):
     # Check if the directory of the file exists, and create it if necessary
@@ -60,18 +64,21 @@ def write_ini(config, output_file, watermark=None):
         f.write(modified_content)
         f.truncate()
 
-def process_config(skin_config, variants_config, styles_config, notes_config):
+def process_config(skin_config, variants_config, styles_config, notesets_config, notes_config):
     # Create base config for variants to build from
     base_config = skinparser.SkinParser()
     base_config.update(skin_config)
-    base_config.remove_section('Mania')
+    base_config.remove_section('Variants')
 
     processed_configs = []
-    for variant in skin_config['Mania']:
+    for variant in skin_config['Variants']:
         # Change variant name
         processed_variant = skinparser.SkinParser()
         processed_variant.update(base_config)
-        processed_variant.set('General', 'Name', skin_config.get('Mania', variant))
+        processed_variant.set('General', 'Name', skin_config.get('Variants', variant))
+
+        # Get variant noteset
+        noteset = variants_config.get_with_default(variant, 'NoteSet', fallback='Default')
 
         # Process the different styles
         for keymode, keymode_keycount in ALL_KEYS.items():
@@ -101,7 +108,9 @@ def process_config(skin_config, variants_config, styles_config, notes_config):
                 note_key = f'Note{note_id}'
 
                 # Get which type this note is
-                note_type = styles_config.get_with_default(style, note_key)
+                raw_note_type = styles_config.get_with_default(style, note_key)
+
+                note_type = notesets_config.get_with_default(noteset, raw_note_type, fallback=raw_note_type)
 
                 # Remove old notes thing from new config
                 processed_variant.remove_option(style_section_name, note_key)
@@ -155,7 +164,7 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
 
     # write to new INI files
     for c in processed_configs:
-        variant_name = c['General']['Name']
+        variant_name = sanitise(c['General']['Name'])
 
         #Create skin.ini in temp skin dir
         write_ini(c, os.path.join(temp_skin_path,'skin.ini'), watermark=watermark)
@@ -174,7 +183,7 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
 
     if auto_execute:
         # Give time for osu to import, TODO: make this mor rigorous
-        time.sleep(1)
+        time.sleep(5)
     # Cleanup temp dir
     shutil.rmtree(temp_path)
 
