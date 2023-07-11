@@ -41,10 +41,10 @@ def parse_ini(input_path, ini_name):
 def parse_inis(input_path):
     # Parse the input INI files
     skin_config = parse_ini(input_path, 'skin.ini')
-    variants_config = parse_ini(input_path, 'maniavariants.ini')
-    styles_config = parse_ini(input_path, 'maniastyles.ini')
-    notesets_config = parse_ini(input_path, 'manianotesets.ini')
-    notes_config = parse_ini(input_path, 'manianotes.ini')
+    variants_config = parse_ini(input_path, 'variants.ini')
+    styles_config = parse_ini(input_path, 'styles.ini')
+    notesets_config = parse_ini(input_path, 'notesets.ini')
+    notes_config = parse_ini(input_path, 'notes.ini')
 
     return skin_config, variants_config, styles_config, notesets_config, notes_config
 
