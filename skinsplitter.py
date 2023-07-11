@@ -81,10 +81,6 @@ def process_config(skin_config, variants_config, styles_config, notesets_config,
     return processed_configs
 
 def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=None, output_path='output', temp_path='_temp', auto_execute=False):
-    # Sanitise file paths, just in case
-    if output_path is not None: output_path = sanitise(output_path)
-    if temp_path is not None: temp_path = sanitise(temp_path)
-
     temp_skin_path = os.path.join(temp_path, 'skin')
     # If automatically executing, use temp output
     if auto_execute:
