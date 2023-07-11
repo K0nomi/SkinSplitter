@@ -28,7 +28,7 @@ def main():
 
     try:
         skinsplitter.build_skin(args.skin, watermark, ini_path=ini_path, auto_execute=args.auto_execute)
-    except errors.SkinUnset:
+    except errors.UnsetSkin:
         print("Error: Skin argument not set!")
         print(f"Please set the skin name using the following command:\n\n\t{sys.argv[0]} -s <skin_name>")
 
