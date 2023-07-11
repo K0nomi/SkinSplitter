@@ -4,6 +4,9 @@ class UnmatchedKeycounts(Exception):
 class SkinNotFound(Exception):
     pass
 
+class SkinUnset(Exception):
+    pass
+
 class MissingConfiguration(Exception):
     pass
 

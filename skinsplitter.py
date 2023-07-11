@@ -90,6 +90,8 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
         skin_path = os.path.join(input_path, skin_path)
 
     # Throw if no skin directory
+    if skin_path is None:
+        raise errors.SkinUnset(f"Skin was not set!")
     if not os.path.exists(skin_path):
         raise errors.SkinNotFound(f"Skin {skin_path} was not found!")
     
@@ -113,7 +115,7 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
     # Process the config objects
     processed_configs = process_config(*configs)
 
-    # write to new INI files
+    # build skin .osks
     for c in processed_configs:
         variant_name = sanitise(c['General']['Name'])
 
@@ -140,7 +142,7 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
     # Cleanup temp dir
     shutil.rmtree(temp_path)
 
-# Below here is unfinished code
+# Below here is to be removed
 if __name__ == '__main__':
     input_skin = 'Konomix v3 Gamma'
     ini_path = 'SkinSplitter'
@@ -148,7 +150,7 @@ if __name__ == '__main__':
         'This skin.ini was automatically generated using SkinSplitter (made by Konomi).', 
         'https://github.com/K0nomi/SkinSplitter/', 
         'The contents of this skin.ini are not designed to be readable.',
-        f'check the `{ini_path}` folder in this skin\'s directory for the original configs.'
+        f'Check the `{ini_path}` folder in this skin\'s directory for the original configs.'
     ]
 
     build_skin(input_skin, watermark, ini_path=ini_path, auto_execute=True)
