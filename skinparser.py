@@ -57,7 +57,7 @@ def write_ini(config, output_file, watermark=None):
         os.makedirs(directory)
 
     # Write the config into a new INI file
-    with open(output_file, 'w+', encoding="utf-8") as f:
+    with open(output_file, 'w+', encoding='utf-8') as f:
         # Write watermark at the beginning of the file if one is set
         if watermark:
             for line in watermark:
