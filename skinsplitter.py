@@ -8,8 +8,29 @@ import configparser
 import skinparser
 import errors
 
-ALL_KEYS = {'Keys1': 1, 'Keys2': 2, 'Keys3': 3, 'Keys4': 4, 'Keys5': 5, 'Keys6': 6, 'Keys7': 7, 'Keys8': 8, 'Keys9': 9, 'Keys10': 10, 'Keys12': 12, 'keys14': 14, 'keys16': 16, 'Keys18': 18}
-NOTE_PROPERTIES = [('NoteImage', 'NoteImage{}'), ('NoteImageH', 'NoteImage{}H'), ('NoteImageL', 'NoteImage{}L'), ('NoteImageT', 'NoteImage{}T')]
+ALL_KEYS = {
+    'Keys1': 1,
+    'Keys2': 2,
+    'Keys3': 3,
+    'Keys4': 4,
+    'Keys5': 5,
+    'Keys6': 6,
+    'Keys7': 7,
+    'Keys8': 8,
+    'Keys9': 9,
+    'Keys10': 10,
+    'Keys12': 12,
+    'keys14': 14,
+    'keys16': 16,
+    'Keys18': 18
+}
+
+NOTE_PROPERTIES = [
+    ('NoteImage', 'NoteImage{}'),
+    ('NoteImageH', 'NoteImage{}H'),
+    ('NoteImageL', 'NoteImage{}L'),
+    ('NoteImageT', 'NoteImage{}T')
+]
 
 def sanitise(filename):
     return re.sub(r'[<>:"/\\|?*]', '_', filename).strip('. ').strip()
@@ -34,7 +55,7 @@ def process_config(skin_config, variants_config, styles_config, notesets_config,
         # Process the different styles
         for keymode, keymode_keycount in ALL_KEYS.items():
             style = variants_config.get_with_default(variant, keymode)
-           
+          
             if style is None:
                 # Keymode not defined, skip
                 # TODO: let it set defaults even when keymode is not defined
@@ -94,7 +115,7 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
         raise errors.UnsetSkin(f"Skin path was None.")
     if not os.path.exists(skin_path):
         raise errors.SkinNotFound(f"Skin {skin_path} was not found!")
-   
+  
     # The ini path is inside the skin directory
     ini_path = os.path.join(skin_path, ini_path)
 
@@ -138,7 +159,7 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
         # Give time for osu to import
         # TODO: make this more rigorous
         time.sleep(len(processed_configs) // 1.5)
-       
+      
     # Cleanup temp dir
     shutil.rmtree(temp_path)
 
