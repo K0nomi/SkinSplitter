@@ -2,6 +2,8 @@ import configparser
 import os
 import re
 
+import errors
+
 class SkinParser(configparser.ConfigParser):
     # skin.ini uses // as comments because peppy is silly
     # also set ": " as first delimiter so that is what gets used when written
