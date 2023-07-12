@@ -137,7 +137,7 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
 
     # build skin .osks
     for config in processed_configs:
-        variant_name = sanitise(c['General']['Name'])
+        variant_name = sanitise(config['General']['Name'])
 
         #Create skin.ini in temp skin dir
         skinparser.write_ini(config, os.path.join(temp_skin_path,'skin.ini'), watermark=watermark)
