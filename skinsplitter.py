@@ -54,7 +54,7 @@ def process_config(skin_config, variants_config, styles_config, notesets_config,
         # Process the different styles
         for keymode, keymode_keycount in ALL_KEYS.items():
             style = variants_config.get_with_default(variant, keymode)
-          
+
             if style is None:
                 # Keymode not defined, skip
                 # TODO: let it set defaults even when keymode is not defined
@@ -114,7 +114,7 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
         raise errors.UnsetSkin("Skin path was None.")
     if not os.path.exists(skin_path):
         raise errors.SkinNotFound(f"Skin {skin_path} was not found!")
-  
+
     # The ini path is inside the skin directory
     ini_path = os.path.join(skin_path, ini_path)
 
