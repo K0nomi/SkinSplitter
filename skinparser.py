@@ -20,9 +20,9 @@ class SkinParser(configparser.ConfigParser):
         #TODO: Recurse
 
         value = self.get(section, option, fallback=None, **kwargs)
-        if value is not None: 
+        if value is not None:
             return value
-        
+       
         # Option not found, fallback to Default and then fallback
         return self.get(default, option, fallback=fallback, **kwargs)
 

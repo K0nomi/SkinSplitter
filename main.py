@@ -7,8 +7,8 @@ import errors
 # TODO: arg for this maybe idk if that is needed
 ini_path = 'SkinSplitter'
 watermark = [
-    'This skin.ini was automatically generated using SkinSplitter (made by Konomi).', 
-    'https://github.com/K0nomi/SkinSplitter/', 
+    'This skin.ini was automatically generated using SkinSplitter (made by Konomi).',
+    'https://github.com/K0nomi/SkinSplitter/',
     'The contents of this skin.ini are not designed to be readable.',
     f'Check the `{ini_path}` folder in this skin\'s directory for the original configs.'
 ]
