@@ -5,12 +5,12 @@ import skinsplitter
 import errors
 
 # TODO: arg for this maybe idk if that is needed
-ini_path = 'SkinSplitter'
+INI_PATH = 'SkinSplitter'
 watermark = [
     'This skin.ini was automatically generated using SkinSplitter (made by Konomi).',
     'https://github.com/K0nomi/SkinSplitter/',
     'The contents of this skin.ini are not designed to be readable.',
-    f'Check the `{ini_path}` folder in this skin\'s directory for the original configs.'
+    f'Check the `{INI_PATH}` folder in this skin\'s directory for the original configs.'
 ]
 
 # TODO: complete args and fix silly description
@@ -26,7 +26,7 @@ def main():
     args = parse_arguments()
 
     try:
-        skinsplitter.build_skin(args.skin, watermark, ini_path=ini_path, auto_execute=args.auto_execute)
+        skinsplitter.build_skin(args.skin, watermark, ini_path=INI_PATH, auto_execute=args.auto_execute)
     except errors.UnsetSkin:
         print("Error: Skin argument not set!")
         print(f"Please set the skin name using the following command:\n\n\t{sys.argv[0]} -s <skin_name>")
