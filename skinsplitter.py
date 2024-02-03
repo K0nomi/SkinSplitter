@@ -157,7 +157,7 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
         # Give time for osu to import
         # TODO: make this more rigorous
         time.sleep(len(processed_configs) // 1.5)
-      
+
     # Cleanup temp dir
     shutil.rmtree(temp_path)
 
