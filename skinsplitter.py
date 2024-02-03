@@ -2,7 +2,6 @@ import os
 import time
 import re
 import shutil
-from distutils.dir_util import copy_tree
 import configparser
 
 import skinparser
@@ -128,7 +127,7 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
         shutil.rmtree(temp_path)
     os.mkdir(temp_path)
     # Add skin files to temp skin dir
-    copy_tree(skin_path, temp_skin_path)
+    shutil.copytree(skin_path, temp_skin_path)
 
     # Parse the INI files
     configs = skinparser.parse_inis(ini_path)
