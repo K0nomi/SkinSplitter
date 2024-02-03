@@ -18,6 +18,7 @@ def process_config(skin_config, variants_config, styles_config, notesets_config,
     # Create base config for variants to build from
     base_config = skinparser.SkinParser()
     base_config.update(skin_config)
+    base_config.remove_section('SkinSplitter')
     base_config.remove_section('Variants')
 
     processed_configs = []
