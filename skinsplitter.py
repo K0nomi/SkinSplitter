@@ -6,7 +6,7 @@ from distutils.dir_util import copy_tree
 import configparser
 
 import skinparser
-import exceptions
+import errors
 
 ALL_KEYS = {'Keys1': 1, 'Keys2': 2, 'Keys3': 3, 'Keys4': 4, 'Keys5': 5, 'Keys6': 6, 'Keys7': 7, 'Keys8': 8, 'Keys9': 9, 'Keys10': 10, 'Keys12': 12, 'keys14': 14, 'keys16': 16, 'Keys18': 18}
 NOTE_PROPERTIES = [('NoteImage', 'NoteImage{}'), ('NoteImageH', 'NoteImage{}H'), ('NoteImageL', 'NoteImage{}L'), ('NoteImageT', 'NoteImage{}T')]
@@ -43,7 +43,7 @@ def process_config(skin_config, variants_config, styles_config, notesets_config,
             style_keycount = int(styles_config.get_with_default(style, 'Keys'))
             if style_keycount != keymode_keycount:
                 # Keycounts dont match, throw
-                raise exceptions.UnmatchedKeycounts(f'Style keycount "{keymode}" in variant "[{variant}]" does not match keycount "Keys: {style_keycount}" in style "[{style}]".')
+                raise errors.UnmatchedKeycounts(f'Style keycount "{keymode}" in variant "[{variant}]" does not match keycount "Keys: {style_keycount}" in style "[{style}]".')
 
             # Create new mania section
             style_section_name = 'Mania'+str(style_keycount)
@@ -94,7 +94,7 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
 
     # Throw if no skin directory
     if not os.path.exists(skin_path):
-        raise exceptions.SkinNotFound(f"Skin {skin_path} was not found!")
+        raise errors.SkinNotFound(f"Skin {skin_path} was not found!")
     
     # The ini path is inside the skin directory
     ini_path = os.path.join(skin_path, ini_path)
