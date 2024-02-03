@@ -142,17 +142,4 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
     # Cleanup temp dir
     shutil.rmtree(temp_path)
 
-# Below here is to be removed
-if __name__ == '__main__':
-    input_skin = 'Konomix v3 Gamma'
-    ini_path = 'SkinSplitter'
-    watermark = [
-        'This skin.ini was automatically generated using SkinSplitter (made by Konomi).', 
-        'https://github.com/K0nomi/SkinSplitter/', 
-        'The contents of this skin.ini are not designed to be readable.',
-        f'Check the `{ini_path}` folder in this skin\'s directory for the original configs.'
-    ]
-
-    build_skin(input_skin, watermark, ini_path=ini_path, auto_execute=True)
-
 #TODO: add support for custom defaults (copying other skins)
