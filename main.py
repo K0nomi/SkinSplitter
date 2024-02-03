@@ -22,7 +22,6 @@ def parse_arguments():
                         help='Automatically execute the generated .osks to import them into osu!')
     return parser.parse_args()
 
-
 def main():
     args = parse_arguments()
 
@@ -31,7 +30,6 @@ def main():
     except errors.UnsetSkin:
         print("Error: Skin argument not set!")
         print(f"Please set the skin name using the following command:\n\n\t{sys.argv[0]} -s <skin_name>")
-
 
 if __name__ == '__main__':
     main()
