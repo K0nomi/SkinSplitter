@@ -111,7 +111,7 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
 
     # Throw if no skin directory
     if skin_path is None:
-        raise errors.UnsetSkin(f"Skin path was None.")
+        raise errors.UnsetSkin("Skin path was None.")
     if not os.path.exists(skin_path):
         raise errors.SkinNotFound(f"Skin {skin_path} was not found!")
   
