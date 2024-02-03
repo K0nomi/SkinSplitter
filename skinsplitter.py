@@ -44,7 +44,7 @@ def write_ini(config, output_file, watermark=None):
         # Write skin config
         config.write(f)
 
-        # Re-read file content
+        # Re-read file contents
         f.seek(0)
         file_content = f.read()
 
@@ -116,7 +116,7 @@ def process_config(skin_config, variants_config, styles_config, notes_config):
 
     return processed_configs
 
-def build_skin(input_skin, watermark=None, ini_directory='SkinSplitter', output_dir='output', temp_dir='_temp', auto_execute=False):
+def build_skin(input_skin, watermark=None, ini_directory='SkinSplitter', input_dir = None, output_dir='output', temp_dir='_temp', auto_execute=False):
     ini_dir = os.path.join(input_skin, ini_directory)
     temp_skin_dir = os.path.join(temp_dir, 'skin')
     # If automatically executing, use temp output
@@ -165,12 +165,12 @@ def build_skin(input_skin, watermark=None, ini_directory='SkinSplitter', output_
 
 # Below here is unfinished code
 if __name__ == '__main__':
-    input_skin = 'Konomix v3 Beta (LN)'
+    input_skin = 'Konomix v3 Gamma'
     ini_directory = 'SkinSplitter'
     #output_dir = 'output'
     watermark = [
         'This skin.ini was automatically generated using SkinSplitter (made by Konomi).', 
-        'https://github.link/', 
+        'https://github.com/K0nomi/SkinSplitter/', 
         'The contents of this skin.ini are not designed to be readable.',
         f'check the `{ini_directory}` folder in this skin\'s directory for the original configs.'
     ]
