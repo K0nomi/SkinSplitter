@@ -147,7 +147,6 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
 if __name__ == '__main__':
     input_skin = 'Konomix v3 Gamma'
     ini_path = 'SkinSplitter'
-    #output_path = 'output'
     watermark = [
         'This skin.ini was automatically generated using SkinSplitter (made by Konomi).', 
         'https://github.com/K0nomi/SkinSplitter/', 
