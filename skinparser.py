@@ -71,7 +71,7 @@ def write_ini(config, output_file, watermark=None):
         f.seek(0)
         file_content = f.read()
 
-        # Replace [Mania\d+] with [Mania]
+        # Replace [Mania\d+] with [Mania] due to configparser duplicate section issue
         modified_content = re.sub(r'\[Mania\d+\]', '[Mania]', file_content)
 
         # Rewrite and truncate
