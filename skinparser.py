@@ -3,10 +3,14 @@ import os
 import re
 
 class SkinParser(configparser.ConfigParser):
+    # skin.ini uses // as comments because peppy is silly
+    # also set ": " as first delimiter so that is what gets used when written
     def __init__(self, *args, comment_prefixes=('//', '#', ';'), delimiters=(': ', ':', '='), **kwargs):
         super().__init__(*args, comment_prefixes=comment_prefixes, delimiters=delimiters, **kwargs)
+        # I forgot why this is important
         self.optionxform = str
 
+    # No space around delimiters for correctly formattet output ini
     def write(self, *args, space_around_delimiters=False, **kwargs):
         super().write(*args, space_around_delimiters=space_around_delimiters, **kwargs)
 
@@ -17,7 +21,7 @@ class SkinParser(configparser.ConfigParser):
         if value is not None: 
             return value
         
-        # Option not found, fallback to Default and then None
+        # Option not found, fallback to Default and then fallback
         return self.get(default, option, fallback=fallback, **kwargs)
 
     def update_with_default(self, *args, **kwargs):
