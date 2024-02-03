@@ -138,7 +138,7 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
 
     # Warn user if non-skinsplitter skin.ini exists
     if os.path.exists(os.path.join(skin_path, 'skin.ini')):
-        print("Warning: Normal skin.ini exists in input directory, this will be ignored.")
+        print("Warning: Default skin.ini exists in skin directory, this will be ignored.")
 
     # Reset temp dir
     if os.path.exists(temp_path):
@@ -165,7 +165,8 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
         skin_file = shutil.make_archive(os.path.join(output_path, variant_name), 'zip', temp_skin_path) 
         os.replace(skin_file, output_filename)
 
-        # Run .osk if auto executing. TODO: add option to not zip and just copy the files over if osu path specified.
+        # Run .osk if auto executing. 
+        # TODO: add option to not zip and just copy the files over if osu path specified.
         if auto_execute:
             os.startfile(output_filename)
 
