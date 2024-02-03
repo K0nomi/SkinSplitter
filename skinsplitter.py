@@ -11,19 +11,23 @@ import exceptions
 ALL_KEYS = {'Keys1': 1, 'Keys2': 2, 'Keys3': 3, 'Keys4': 4, 'Keys5': 5, 'Keys6': 6, 'Keys7': 7, 'Keys8': 8, 'Keys9': 9, 'Keys10': 10, 'Keys12': 12, 'keys14': 14, 'keys16': 16, 'Keys18': 18}
 NOTE_PROPERTIES = [('NoteImage', 'NoteImage{}'), ('NoteImageH', 'NoteImage{}H'), ('NoteImageL', 'NoteImage{}L'), ('NoteImageT', 'NoteImage{}T')]
 
+def parse_ini(input_path, ini_name):
+    ini_path = os.path.join(input_path, ini_name)
+
+    if not os.path.exists(ini_path):
+        raise exceptions.MissingConfiguration(f"INI file '{ini_path}' does not exist.")
+
+    config = skinparser.SkinParser()
+    config.read(ini_path)
+
+    return config
+
 def parse_inis(input_path):
     # Parse the input INI files
-    skin_config = skinparser.SkinParser()
-    skin_config.read(os.path.join(input_path, 'skin.ini'))
-
-    variants_config = skinparser.SkinParser()
-    variants_config.read(os.path.join(input_path, 'maniavariants.ini'))
-
-    styles_config = skinparser.SkinParser()
-    styles_config.read(os.path.join(input_path, 'maniastyles.ini'))
-
-    notes_config = skinparser.SkinParser()
-    notes_config.read(os.path.join(input_path, 'manianotes.ini'))
+    skin_config = parse_ini(input_path, 'skin.ini')
+    variants_config = parse_ini(input_path, 'maniavariants.ini')
+    styles_config = parse_ini(input_path, 'maniastyles.ini')
+    notes_config = parse_ini(input_path, 'manianotes.ini')
 
     return skin_config, variants_config, styles_config, notes_config
 

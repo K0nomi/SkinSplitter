@@ -3,3 +3,6 @@ class UnmatchedKeycounts(Exception):
 
 class SkinNotFound(Exception):
     pass
+
+class MissingConfiguration(Exception):
+    pass
