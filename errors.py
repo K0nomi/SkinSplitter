@@ -1,14 +1,14 @@
-class UnmatchedKeycounts(Exception):
+class MismatchedKeyCounts(Exception):
     pass
 
 class SkinNotFound(Exception):
     pass
 
-class SkinUnset(Exception):
+class UnsetSkin(Exception):
     pass
 
-class MissingConfiguration(Exception):
+class ConfigurationNotFound(Exception):
     pass
 
-class InvalidVersion(Exception):
+class BadVersion(Exception):
     pass

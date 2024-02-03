@@ -44,7 +44,7 @@ def process_config(skin_config, variants_config, styles_config, notesets_config,
             style_keycount = int(styles_config.get_with_default(style, 'Keys'))
             if style_keycount != keymode_keycount:
                 # Keycounts dont match, throw
-                raise errors.UnmatchedKeycounts(f'Style keycount "{keymode}" in variant "[{variant}]" does not match keycount "Keys: {style_keycount}" in style "[{style}]".')
+                raise errors.MismatchedKeyCounts(f'Style keycount "{keymode}" in variant "[{variant}]" does not match keycount "Keys: {style_keycount}" in style "[{style}]".')
 
             # Create new mania section
             style_section_name = 'Mania'+str(style_keycount)
@@ -91,7 +91,7 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
 
     # Throw if no skin directory
     if skin_path is None:
-        raise errors.SkinUnset(f"Skin path was None.")
+        raise errors.UnsetSkin(f"Skin path was None.")
     if not os.path.exists(skin_path):
         raise errors.SkinNotFound(f"Skin {skin_path} was not found!")
     
