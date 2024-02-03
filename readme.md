@@ -1,2 +1,2 @@
 # SkinSplitter
-## This project is still WIP.
+This project is still WIP
