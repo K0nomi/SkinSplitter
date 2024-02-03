@@ -14,6 +14,7 @@ watermark = [
 ]
 
 # TODO: complete args and fix silly description
+# TODO: if no args are given, open gui
 def parse_arguments():
     parser = argparse.ArgumentParser(description='Split them skins')
     parser.add_argument('--skin', '-s',
