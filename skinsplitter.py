@@ -142,7 +142,7 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
     # Cleanup temp dir
     shutil.rmtree(temp_path)
 
-# Below here is to be removeds
+# Below here is to be removed
 if __name__ == '__main__':
     input_skin = 'Konomix v3 Gamma'
     ini_path = 'SkinSplitter'
