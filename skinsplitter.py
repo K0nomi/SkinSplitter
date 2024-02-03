@@ -91,7 +91,7 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
 
     # Throw if no skin directory
     if skin_path is None:
-        raise errors.SkinUnset(f"Skin was not set!")
+        raise errors.SkinUnset(f"Skin path was None.")
     if not os.path.exists(skin_path):
         raise errors.SkinNotFound(f"Skin {skin_path} was not found!")
     
@@ -142,7 +142,7 @@ def build_skin(skin_path, watermark=None, ini_path='SkinSplitter', input_path=No
     # Cleanup temp dir
     shutil.rmtree(temp_path)
 
-# Below here is to be removed
+# Below here is to be removeds
 if __name__ == '__main__':
     input_skin = 'Konomix v3 Gamma'
     ini_path = 'SkinSplitter'
